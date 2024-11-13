@@ -1,15 +1,17 @@
 use std::env;
-use std::fs;
+use std::process;
+use todo_cli::Command;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    if args.len() < 2 {
-        eprintln!("Usage: todo <command> [arguments...]");
-        return;
+    let command = Command::build(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
+    println!("Keyword: {}", command.keyword);
+    println!("Other_args: {:?}", command.other_args);
+    if let Err(e) = todoCli::run(command) {
+        println!("Application error: {e}");
+        process::exit(1);
     }
-    let command = &args[1];
-    let params: Vec<String> = args[2..].to_vec();
-    let todo_contents =
-        fs::read_to_string("/home/alex/repos/github/todoCLI/todo.data").expect("Can Read File");
-    println!("Contents:\n{todo_contents}")
 }
