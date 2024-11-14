@@ -8,8 +8,6 @@ fn main() {
         println!("Problem parsing arguments: {err}");
         process::exit(1);
     });
-    println!("Keyword: {}", command.keyword);
-    println!("Other_args: {:?}", command.other_args);
     if let Err(e) = todo_cli::run(command) {
         println!("Application error: {e}");
         process::exit(1);

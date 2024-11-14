@@ -25,7 +25,7 @@ impl Command {
 
 pub fn run(command: Command) -> Result<(), Box<dyn Error>> {
     match command.keyword.as_str() {
-        "help" => show_help()?,
+        "help" => show_help(command.other_args)?,
         "createList" => create_list()?,
         "list" => read_list()?,
         "deleteList" => delete_list()?,
@@ -36,13 +36,38 @@ pub fn run(command: Command) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn show_help() -> Result<(), Box<dyn Error>> {
-    let current_path = env::current_dir()
-        .expect("Failed to get current directory")
-        .join("todo.md");
-    println!("The current directory is {:?}", current_path.display());
-    let todo_contents = fs::read_to_string(&current_path)?;
-    println!("Contents:\n{todo_contents}");
+fn show_help(help_args: Vec<String>) -> Result<(), Box<dyn Error>> {
+    if help_args.len() < 1 {
+        println!("Usage: todo help <command_name>");
+        println!("Type 'todo help commands' to view help for all supported commands");
+        return Ok(());
+    }
+    //handle help for each command
+    match help_args[0].as_str() {
+        "commands" => {
+            println!("Supported commands:\ncreateList, list, deleteList, add, del");
+            println!("For more info use: todo help <command_name>")
+        },
+        "createList" => {
+            println!("Command: todo createList\nDescription: Creates a todo.md if one is not present.")
+        },
+        "list" => {
+            println!("Command: todo list\nDescription: Shows all TODO's present in the todo.md.")
+        }
+        "deleteList" => {
+            println!("Command: todo deleteList\nDescription: Deletes the todo.md if one is present.")
+        },
+        "add" => {
+            println!("Command: todo add <Text>\nDescription: Adds a new TODO with the text you enter.")
+        },
+        "del" => {
+            println!(
+                "Command: todo del <entry_number>\n\
+                Description: Deletes a TODO entry at the indexed value in the list.\n\
+                Use 'todo list' to view the list along with their indexes.")
+        },
+        _ => println!("help for command '{}' does not exist", help_args[0]),
+    }
     Ok(())
 }
 
