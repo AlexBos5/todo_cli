@@ -1,1 +1,1 @@
-/home/alex/repos/github/todo_cli/target/debug/libtodo_cli.rlib: /home/alex/repos/github/todo_cli/src/lib.rs
+/home/alex/repos/todoCLI/target/debug/libtodo_cli.rlib: /home/alex/repos/todoCLI/src/lib.rs
