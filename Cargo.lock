@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "todoCli"
+name = "todo_cli"
 version = "0.1.0"

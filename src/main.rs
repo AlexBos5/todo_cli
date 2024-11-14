@@ -10,7 +10,7 @@ fn main() {
     });
     println!("Keyword: {}", command.keyword);
     println!("Other_args: {:?}", command.other_args);
-    if let Err(e) = todoCli::run(command) {
+    if let Err(e) = todo_cli::run(command) {
         println!("Application error: {e}");
         process::exit(1);
     }

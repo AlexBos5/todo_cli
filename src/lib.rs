@@ -25,11 +25,29 @@ impl Command {
 
 pub fn run(command: Command) -> Result<(), Box<dyn Error>> {
     match command.keyword.as_str() {
-        "create" => create_list()?,
+        "help" => show_help()?,
+        "createList" => create_list()?,
         "list" => read_list()?,
-        "delete" => delete_list()?,
+        "deleteList" => delete_list()?,
+        "add" => add_entry(command.other_args)?,
+        "del" => delete_entry()?,
         _ => return Err("Invalid command".into()),
     }
+    Ok(())
+}
+
+fn show_help() -> Result<(), Box<dyn Error>> {
+    let current_path = env::current_dir()
+        .expect("Failed to get current directory")
+        .join("todo.md");
+    println!("The current directory is {:?}", current_path.display());
+    let todo_contents = fs::read_to_string(&current_path)?;
+    println!("Contents:\n{todo_contents}");
+    Ok(())
+}
+
+fn create_list() -> Result<(), Box<dyn Error>> {
+    File::create_new("todo.md")?;
     Ok(())
 }
 
@@ -43,13 +61,20 @@ fn read_list() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn create_list() -> Result<(), Box<dyn Error>> {
-    let mut f = File::create_new("todo.md")?;
-    f.write_all("#Template Todo".as_bytes())?;
+fn delete_list() -> Result<(), Box<dyn Error>> {
+    fs::remove_file("todo.md")?;
     Ok(())
 }
 
-fn delete_list() -> Result<(), Box<dyn Error>> {
-    fs::remove_file("todo.md")?;
+fn add_entry(entry: Vec<String>) -> Result<(), Box<dyn Error>> {
+    let current_path = env::current_dir()
+        .expect("Failed to get current directory")
+        .join("todo.md");
+    let mut f = File::options().append(true).open(&current_path)?;
+    writeln!(&mut f, "{}", entry.join(" "))?;
+    Ok(())
+}
+
+fn delete_entry() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
