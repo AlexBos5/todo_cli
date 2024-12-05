@@ -14,7 +14,15 @@ For a list of supported commands view the [Commands](#Commands) chapter.
 
 ## Installation
 
-<span style="color:green">This is still to be determined</span>.
+To run the installation run:
+
+```bash
+bash install.sh
+```
+
+This will run the installation script which creates a binary file which is then stored in `~/.local/bin/todo`.
+When running the installation script you will receive a menu asking if you want to install this for thte bash or zsh shell. This part is to setup the alias automatically in either your `.bashrc` or `.zshrc`.
+After installing the `todo` alias will be setup but and will require you to reopen your shell in order for the new command to work.
 
 ## Usage
 
