@@ -31,7 +31,10 @@ pub fn run(command: Command) -> Result<(), Box<dyn Error>> {
         "deleteList" => delete_list()?,
         "add" => add_entry(command.other_args)?,
         "del" => delete_entry(command.other_args[0].parse().unwrap())?,
-        _ => return Err("Invalid command".into()),
+        _ => {
+			let error = command.keyword.as_str().to_owned() + (" - Is an invalid command");
+			return Err(error.into());
+		}
     }
     Ok(())
 }
