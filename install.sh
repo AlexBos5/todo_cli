@@ -63,6 +63,7 @@ while true; do
     fi
     clear
 done
+mkdir -p "$HOME/.local/bin/"
 cp $RELEASE_DIR $INSTALL_DIR
 echo "alias $ALIAS_NAME='$INSTALL_DIR'" >> "$SHELL_CONFIG_FILE"
 echo "Installation complete. Reopen your shell and then you can use the 'todo' command."
